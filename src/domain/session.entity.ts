@@ -34,7 +34,29 @@ export class Session {
         return new Session(props);
     }
 
-    update(props: Partial<SessionCreateCommand>): Session {
-        return new Session({ ...this, ...props });
+    changeName(name: string): void {
+        this.name = name;
+    }
+
+    changeDescription(description: string): void {
+        this.description = description;
+    }
+
+    activate(): void {
+        this.is_active = true;
+    }
+
+    deactivate(): void {
+        this.is_active = false;
+    }
+
+    toJson() {
+        return {
+            session_id: this.session_id,
+            name: this.name,
+            description: this.description,
+            is_active: this.is_active,
+            created_at: this.created_at,
+        }
     }
 }
