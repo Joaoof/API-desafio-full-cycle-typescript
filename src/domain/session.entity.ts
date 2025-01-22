@@ -3,7 +3,7 @@ export type SessionConstructorProps = {
     name: string;
     description?: string | null;
     is_active?: boolean;
-    created_at: Date;
+    created_at?: Date;
 }
 
 
@@ -15,11 +15,11 @@ export type SessionCreateCommand = {
 
 
 export class Session {
-    session_id: string;
+    session_id?: string;
     name: string;
-    description: string | null;
-    is_active: boolean;
-    created_at: Date;
+    description?: string | null;
+    is_active?: boolean;
+    created_at?: Date | null;
 
 
     constructor(props: SessionConstructorProps) {
