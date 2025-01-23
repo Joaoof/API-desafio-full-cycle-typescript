@@ -34,15 +34,20 @@ export class Session {
     }
 
     static create(props: SessionConstructorProps): Session {
-        return new Session(props);
+        const session = new Session(props);
+        Session.validate(session);
+        return session;
     }
 
     changeName(name: string): void {
         this.name = name;
+        Session.validate(this);
+
     }
 
     changeDescription(description: string): void {
         this.description = description;
+        Session.validate(this);
     }
 
     activate(): void {
