@@ -1,3 +1,4 @@
+import { EntityValidationError } from "../shared/domain/validators/validation-errors";
 import { Uuuid } from "../shared/domain/value-objects/uuid.vo";
 import { SessionValidatorFactory } from "./session.validator";
 
@@ -60,7 +61,10 @@ export class Session {
 
     static validate(entity: Session) {
         const validator = SessionValidatorFactory.create();
-        return validator.validate(entity);
+        const isValid = validator.validate(entity);
+        if (!isValid) {
+            throw new EntityValidationError('Invalid session');
+        }
     }
 
     toJson() {

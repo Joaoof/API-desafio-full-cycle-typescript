@@ -150,6 +150,10 @@ describe("Session Unit Test", () => {
     });
 });
 
-// describe("Session Validator", () => {
-
-// });
+describe("Session Validator", () => {
+    describe("create command", () => {
+        test("should an invalid category with name property", () => {
+            
+        });
+    });
+});
