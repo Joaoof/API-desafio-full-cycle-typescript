@@ -1,5 +1,7 @@
+import { Uuuid } from "../shared/domain/value-objects/uuid.vo";
+
 export type SessionConstructorProps = {
-    session_id?: string;
+    session_id?: Uuuid;
     name: string;
     description?: string | null;
     is_active?: boolean;
@@ -15,7 +17,7 @@ export type SessionCreateCommand = {
 
 
 export class Session {
-    session_id?: string;
+    session_id: Uuuid;
     name: string;
     description?: string | null;
     is_active?: boolean;
@@ -23,7 +25,7 @@ export class Session {
 
 
     constructor(props: SessionConstructorProps) {
-        this.session_id = props.session_id;
+        this.session_id = props.session_id ?? new Uuuid();
         this.name = props.name;
         this.description = props.description ?? null;
         this.is_active = props.is_active ?? true;

@@ -1,3 +1,4 @@
+import { Uuuid } from "../../shared/domain/value-objects/uuid.vo";
 import { Session } from "../session.entity";
 
 describe("Session Unit Test", () => {
@@ -6,7 +7,7 @@ describe("Session Unit Test", () => {
             const session = new Session({
                 name: 'Session 1',
             });
-            expect(session.session_id).toBeUndefined();
+            expect(session.session_id).toBeInstanceOf(Uuuid);
             expect(session.name).toBe('Session 1');
             expect(session.description).toBeNull();
             expect(session.is_active).toBeTruthy();
@@ -23,7 +24,7 @@ describe("Session Unit Test", () => {
                 created_at
             })
 
-            expect(session.session_id).toBeUndefined();
+            expect(session.session_id).toBeInstanceOf(Uuuid);
             expect(session.name).toBe('Session 1');
             expect(session.description).toBe('Description');
             expect(session.is_active).toBeFalsy();
@@ -47,11 +48,36 @@ describe("create command", () => {
         const session = Session.create({
             name: 'Session 1',
         });
-        expect(session.session_id).toBeUndefined();
+        expect(session.session_id).toBeInstanceOf(Uuuid);
         expect(session.name).toBe('Session 1');
         expect(session.description).toBeNull();
         expect(session.is_active).toBeTruthy();
         expect(session.created_at).toBeInstanceOf(Date);
+    });
+
+    describe("category_id field", () => {
+        const arrange = [
+            {
+                session_id: null,
+            },
+            {
+                session_id: undefined
+            },
+            {
+                session_id: new Uuuid()
+            }
+        ]
+
+        test.each(arrange)("id = %j", ({ session_id }) => {
+            const session = new Session({
+                name: 'Session 1',
+                session_id: session_id as any,
+            });
+            expect(session.session_id).toBeInstanceOf(Uuuid);
+            if (session_id) {
+                expect(session.session_id).toBe(session_id);
+            }
+        });
     });
 
     test("should create a category with description", () => {
