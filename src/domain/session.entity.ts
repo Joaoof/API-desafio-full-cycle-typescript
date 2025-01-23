@@ -1,4 +1,5 @@
 import { Uuuid } from "../shared/domain/value-objects/uuid.vo";
+import { SessionValidatorFactory } from "./session.validator";
 
 export type SessionConstructorProps = {
     session_id?: Uuuid;
@@ -50,6 +51,11 @@ export class Session {
 
     deactivate(): void {
         this.is_active = false;
+    }
+
+    static validate(entity: Session) {
+        const validator = SessionValidatorFactory.create();
+        return validator.validate(entity);
     }
 
     toJson() {
