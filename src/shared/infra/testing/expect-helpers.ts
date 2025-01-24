@@ -47,7 +47,6 @@ function assertContainsErrorsMessages(
                 )}. Current: ${JSON.stringify(expected)}`,
         };
 }
-
 function isValid() {
     return { pass: true, message: () => '' }
 }

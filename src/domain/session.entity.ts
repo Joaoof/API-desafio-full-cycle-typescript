@@ -34,7 +34,7 @@ export class Session {
         this.created_at = props.created_at ?? new Date();
     }
 
-    static create(props: SessionConstructorProps): Session {
+    static create(props: SessionCreateCommand): Session {
         const session = new Session(props);
         Session.validate(session);
         return session;
@@ -63,7 +63,7 @@ export class Session {
         const validator = SessionValidatorFactory.create();
         const isValid = validator.validate(entity);
         if (!isValid) {
-            throw new EntityValidationError('Invalid session');
+            throw new EntityValidationError(validator.errors);
         }
     }
 

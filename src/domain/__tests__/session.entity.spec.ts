@@ -150,10 +150,51 @@ describe("Session Unit Test", () => {
     });
 });
 
-describe("Session Validator", () => {
+describe("Category Validator", () => {
     describe("create command", () => {
         test("should an invalid category with name property", () => {
-            
+            const arrange = [];
+
+            expect(() => Session.create({ name: null })).containsErrorMessages({
+                name: [
+                    "name should not be empty",
+                    "name must be a string",
+                    "name must be shorter than or equal to 255 characters",
+                ],
+            });
+
+            expect(() => Session.create({ name: "" })).containsErrorMessages({
+                name: ["name should not be empty"],
+            });
+
+            expect(() => Session.create({ name: 5 as any })).containsErrorMessages({
+                name: [
+                    "name must be a string",
+                    "name must be shorter than or equal to 255 characters",
+                ],
+            });
+
+            expect(() =>
+                Session.create({ name: "t".repeat(256) })
+            ).containsErrorMessages({
+                name: ["name must be shorter than or equal to 255 characters"],
+            });
+        });
+
+        it("should a invalid category using description property", () => {
+            expect(() =>
+                Session.create({ description: 5 } as any)
+            ).containsErrorMessages({
+                description: ["description must be a string"],
+            });
+        });
+
+        it("should a invalid category using is_active property", () => {
+            expect(() =>
+                Session.create({ is_active: 5 } as any)
+            ).containsErrorMessages({
+                is_active: ["is_active must be a boolean value"],
+            });
         });
     });
 });
