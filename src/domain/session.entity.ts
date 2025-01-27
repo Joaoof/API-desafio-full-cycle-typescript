@@ -1,4 +1,6 @@
+import { Entity } from "../shared/domain/entity";
 import { EntityValidationError } from "../shared/domain/validators/validation-errors";
+import { ValueObject } from "../shared/domain/value-object";
 import { Uuuid } from "../shared/domain/value-objects/uuid.vo";
 import { SessionValidatorFactory } from "./session.validator";
 
@@ -18,7 +20,7 @@ export type SessionCreateCommand = {
 }
 
 
-export class Session {
+export class Session extends Entity {
     session_id: Uuuid;
     name: string;
     description?: string | null;
@@ -27,11 +29,16 @@ export class Session {
 
 
     constructor(props: SessionConstructorProps) {
+        super();
         this.session_id = props.session_id ?? new Uuuid();
         this.name = props.name;
         this.description = props.description ?? null;
         this.is_active = props.is_active ?? true;
         this.created_at = props.created_at ?? new Date();
+    }
+
+    get entity_id(): ValueObject {
+        return this.session_id;
     }
 
     static create(props: SessionCreateCommand): Session {
@@ -67,7 +74,7 @@ export class Session {
         }
     }
 
-    toJson() {
+    toJSON() {
         return {
             session_id: this.session_id,
             name: this.name,
